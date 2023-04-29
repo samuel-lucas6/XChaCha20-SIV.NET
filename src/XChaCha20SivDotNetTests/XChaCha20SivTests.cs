@@ -1,0 +1,136 @@
+using XChaCha20SivDotNet;
+using System.Security.Cryptography;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace XChaCha20SivDotNetTests;
+
+[TestClass]
+public class XChaCha20SivTests
+{
+    public static IEnumerable<object[]> TestVectors()
+    {
+        yield return new object[]
+        {
+            "cdc79f2b717399760d80bc82a3f752afde4c7041a53a430ade84c4aae789b375946c03af4dbbcefabfc6570a4ecfb5ebc9b0e3f7d0257724e5d7353d06d1a833865b813c78b26b7c678ab69c82450ec9470425c8e7ae1d56ee71deaafea13d0653245ccf1b7968f95d3b96dbbd5665fc318c309c9528531ee7046b60e8a579028f6cd10cf75b9b900fb7fc275ba6660da07069e0f7f4fba112d57f5c206dbef2f5ab3811ed14b7296a402a0ccbf4e013647852ef98620229a935be5af9d6dee6f31ef827022a9f6ca584b8cd1bd0468fc17071df6575cfbeeb30f13cdbd0489f095453aa5e46092db0dce4ccba7e1a057f6183733f9ffcd6aaa938ad0aadf945b0227b7eca7ba0ecf35f3ba83a3785fe0e4c660b8529819553e8c240f62babac50f0891a62c20e1b37911aca052f23145baaf97621ce568e1325f2c0bb8047b4bf5a3751138da9aecd2337ec68a6dedd",
+            "5468652064686f6c65202870726f6e6f756e6365642022646f6c65222920697320616c736f206b6e6f776e2061732074686520417369617469632077696c6420646f672c2072656420646f672c20616e642077686973746c696e6720646f672e2049742069732061626f7574207468652073697a65206f662061204765726d616e20736865706865726420627574206c6f6f6b73206d6f7265206c696b652061206c6f6e672d6c656767656420666f782e205468697320686967686c7920656c757369766520616e6420736b696c6c6564206a756d70657220697320636c6173736966696564207769746820776f6c7665732c20636f796f7465732c206a61636b616c732c20616e6420666f78657320696e20746865207461786f6e6f6d69632066616d696c792043616e696461652e",
+            "404142434445464748494a4b4c4d4e4f5051525354555658",
+            "808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9f",
+            "50515253c0c1c2c3c4c5c6c7"
+        };
+        yield return new object[]
+        {
+            "fb3a9641f74abe943ef6b6efb0df42a6f587ebae98287aeefb26c6db54abb832a242eaaef8a3b5e8d5cfcee8ab8490df204c7c1bbfadbcdf8e67b09677018a8099f95c388e5ad63d2e2ba97a886edf923665a0ff916ac1747edd56ffbe18308191b3c816ec30f4f5a7023608bf98a30353631774581d1a547a6edc945a60ff5fce9aa544a1dd16e21975a8ae032b103bc8aa65d3777fb5c6031e6f56d258d0c210d0b2a22cad194856838c942939b0a3927190ba940ea6d770c2f7df8686e9c07a71fd2fcefee85cd3c6565888092549c81fd823031b9bdeea0c0a7366e4a20edb8b2a7489368847efdb137f99f754fa6e5db5a168ec4575d7e96c85fd80b1f04367996c8072b3c069c5f551dd4bac4872e40c542315c756bc71e8d05ea99d79b85402d81c4fe1bd35d9894a72f01dfb907f9ffb134c26d5ba49a31233b45c59648f16ec3e23ab5b9ecef8ab15578349",
+            "5468652064686f6c65202870726f6e6f756e6365642022646f6c65222920697320616c736f206b6e6f776e2061732074686520417369617469632077696c6420646f672c2072656420646f672c20616e642077686973746c696e6720646f672e2049742069732061626f7574207468652073697a65206f662061204765726d616e20736865706865726420627574206c6f6f6b73206d6f7265206c696b652061206c6f6e672d6c656767656420666f782e205468697320686967686c7920656c757369766520616e6420736b696c6c6564206a756d70657220697320636c6173736966696564207769746820776f6c7665732c20636f796f7465732c206a61636b616c732c20616e6420666f78657320696e20746865207461786f6e6f6d69632066616d696c792043616e696461652e",
+            "",
+            "808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9f",
+            "50515253c0c1c2c3c4c5c6c7"
+        };
+        yield return new object[]
+        {
+            "3ca8534f2b15e2b1b3da54bec813c99d653b0bed18af6bd633a0ad941e8c46123baef4a51e4ddba07a1ce85d4edf95188be057fcc846cc678829408b09c64ba8951bbe68da5cd4ec82bffccbc32899f2e6c6b97968c2c130498762324eac1c10b90d22c05347629e2a3888837c78bf15b72d7069c53b2e3677f8fb41a92b771e0cba31eeebd7b115abbc19cf3ce541a714a9db53e5490363ba96965a5cc1ac243a1215f942b81d54f74eb63b917e02d9b6f7a4c533625252ab173be219546cc0f5ceb6767bdae4785f2b624f08da40c7d67b092a35b5414cc6b90cf53ad0e1724fe877b5c76790cec31bbfab7dcc52efa48c6575071324a007d53542b82ed0aa144a8a2dc41500ef05f2729cfb3e1e756778187c41500d2c98ecb8120f49e00cbaf78eaacc894d686bd10ac23e755bf443e109c5258b190987b47766942ebb9baa115ca12dcb4ef9c3dafb784bc0b5f2",
+            "5468652064686f6c65202870726f6e6f756e6365642022646f6c65222920697320616c736f206b6e6f776e2061732074686520417369617469632077696c6420646f672c2072656420646f672c20616e642077686973746c696e6720646f672e2049742069732061626f7574207468652073697a65206f662061204765726d616e20736865706865726420627574206c6f6f6b73206d6f7265206c696b652061206c6f6e672d6c656767656420666f782e205468697320686967686c7920656c757369766520616e6420736b696c6c6564206a756d70657220697320636c6173736966696564207769746820776f6c7665732c20636f796f7465732c206a61636b616c732c20616e6420666f78657320696e20746865207461786f6e6f6d69632066616d696c792043616e696461652e",
+            "404142434445464748494a4b4c4d4e4f5051525354555658",
+            "1c9240a5eb55d38af333888604f6b5f0473917c1402b80099dca5cbc207075c0",
+            "50515253c0c1c2c3c4c5c6c7"
+        };
+        yield return new object[]
+        {
+            "e020188ce6b269dde64b404badd674d07da5da6ddc61177a136f6652599f00771dbe9e41529b7c9b2f33f7e52ac58e3ceea7985d6c9d9c60a2168b1b2100d65755df3f74e8fc0e54ad5040107374259b239bf5933143396c7ae9b0ee6e6464fee1eda6141778ff51b55cd1c478ebe04c907963f847fbfa7f9e0b9b505cbc4f377d96ea871de3b67c51226b31d2661c64c3517f665e2d56ffa9c6e6ebcc20c70fe03b708e9cdb6a6707c5cb7b46c2cf1d2ecfdc23ae2ae21f07bf14300c609ccc79a33bb603476dac5019e0a81a098051d7f5bd3614cc28d8caf98c278ca200d04698306a6e056bfd8bb0ad063eb00bdd866439ded9cae7f28fa785a210c4fe56b37c00214e2c851bf5421bbe756e0dc20a8427d7719a9b90b511f00a4c6dfa778ece766d043f595ee80679d1e579d449a29dc1bd5d1b2f7cdc134ddba063947dfca178fd8cb865a12ba372ab895abe73",
+            "5468652064686f6c65202870726f6e6f756e6365642022646f6c65222920697320616c736f206b6e6f776e2061732074686520417369617469632077696c6420646f672c2072656420646f672c20616e642077686973746c696e6720646f672e2049742069732061626f7574207468652073697a65206f662061204765726d616e20736865706865726420627574206c6f6f6b73206d6f7265206c696b652061206c6f6e672d6c656767656420666f782e205468697320686967686c7920656c757369766520616e6420736b696c6c6564206a756d70657220697320636c6173736966696564207769746820776f6c7665732c20636f796f7465732c206a61636b616c732c20616e6420666f78657320696e20746865207461786f6e6f6d69632066616d696c792043616e696461652e",
+            "404142434445464748494a4b4c4d4e4f5051525354555658",
+            "808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9f",
+            ""
+        };
+        yield return new object[]
+        {
+            "14939489eca7ed290016b8be194552d2307d116b26089635a5189f75752e4640fddf43ef289fa2b82fdd3005595759d158f440fcb7b0932acb4227261fadf861e61550c83dc0960a4fe09bbd5b2e8e3aeaf6ea9a3719a33868a1c6d307a45363ce7d42ba029713557e499cdaff5f09643a1cdd254c37eaa61cd26a503c40299cb682bff3a9d7e3c844882dbcfac7ac6369837dd7c1d939fa1f4b83ed5a87c0e580e9a46bb8c8e04e3f695117fca2d0bdd30b62191466a91c05c475976e80027e91085d3dc60a152a34be4ffc02028265bbfb8d20429c574e2840beb5c1c4c23f7c7108900ae3a28cc8fa01881a179d09de7add325d71656c9aebf8c354d39929f925710693b48224bf0c631eb0d115d9b11c1b47e9a38674e43643a9d4244d2b0548ebf67e85595120cf089a50447b67923254684d24eebf908d03653ae1ca6a40426d84cabb8a22fb97210daa6174b9",
+            "5468652064686f6c65202870726f6e6f756e6365642022646f6c65222920697320616c736f206b6e6f776e2061732074686520417369617469632077696c6420646f672c2072656420646f672c20616e642077686973746c696e6720646f672e2049742069732061626f7574207468652073697a65206f662061204765726d616e20736865706865726420627574206c6f6f6b73206d6f7265206c696b652061206c6f6e672d6c656767656420666f782e205468697320686967686c7920656c757369766520616e6420736b696c6c6564206a756d70657220697320636c6173736966696564207769746820776f6c7665732c20636f796f7465732c206a61636b616c732c20616e6420666f78657320696e20746865207461786f6e6f6d69632066616d696c792043616e696461652e",
+            "",
+            "808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9f",
+            ""
+        };
+    }
+    
+    public static IEnumerable<object[]> InvalidParameterSizes()
+    {
+        yield return new object[] { XChaCha20Siv.TagSize, 1, XChaCha20Siv.NonceSize, XChaCha20Siv.KeySize, XChaCha20Siv.TagSize };
+        yield return new object[] { XChaCha20Siv.TagSize, 0, XChaCha20Siv.NonceSize, XChaCha20Siv.KeySize + 1, XChaCha20Siv.TagSize };
+        yield return new object[] { XChaCha20Siv.TagSize, 0, XChaCha20Siv.NonceSize, XChaCha20Siv.KeySize - 1, XChaCha20Siv.TagSize };
+    }
+    
+    [TestMethod]
+    [DynamicData(nameof(TestVectors), DynamicDataSourceType.Method)]
+    public void Encrypt_Valid(string ciphertext, string plaintext, string nonce, string key, string associatedData)
+    {
+        Span<byte> c = stackalloc byte[ciphertext.Length / 2];
+        Span<byte> p = Convert.FromHexString(plaintext);
+        Span<byte> n = Convert.FromHexString(nonce);
+        Span<byte> k = Convert.FromHexString(key);
+        Span<byte> ad = Convert.FromHexString(associatedData);
+        
+        XChaCha20Siv.Encrypt(c, p, n, k, ad);
+        
+        Assert.AreEqual(ciphertext, Convert.ToHexString(c).ToLower());
+    }
+    
+    [TestMethod]
+    [DynamicData(nameof(InvalidParameterSizes), DynamicDataSourceType.Method)]
+    public void Encrypt_Invalid(int ciphertextSize, int plaintextSize, int nonceSize, int keySize, int associatedDataSize)
+    {
+        var c = new byte[ciphertextSize];
+        var p = new byte[plaintextSize];
+        var n = new byte[nonceSize];
+        var k = new byte[keySize];
+        var ad = new byte[associatedDataSize];
+        
+        Assert.ThrowsException<ArgumentOutOfRangeException>(() => XChaCha20Siv.Encrypt(c, p, n, k, ad));
+    }
+    
+    [TestMethod]
+    [DynamicData(nameof(TestVectors), DynamicDataSourceType.Method)]
+    public void Decrypt_Valid(string ciphertext, string plaintext, string nonce, string key, string associatedData)
+    {
+        Span<byte> c = Convert.FromHexString(ciphertext);
+        Span<byte> p = stackalloc byte[plaintext.Length / 2];
+        Span<byte> n = Convert.FromHexString(nonce);
+        Span<byte> k = Convert.FromHexString(key);
+        Span<byte> ad = Convert.FromHexString(associatedData);
+        
+        XChaCha20Siv.Decrypt(p, c, n, k, ad);
+        
+        Assert.AreEqual(plaintext, Convert.ToHexString(p).ToLower());
+    }
+    
+    [TestMethod]
+    [DynamicData(nameof(TestVectors), DynamicDataSourceType.Method)]
+    public void Decrypt_Tampered(string ciphertext, string plaintext, string nonce, string key, string associatedData)
+    {
+        var p = new byte[plaintext.Length / 2];
+        var parameters = new List<byte[]>
+        {
+            Convert.FromHexString(ciphertext),
+            Convert.FromHexString(nonce),
+            Convert.FromHexString(key),
+            Convert.FromHexString(associatedData)
+        };
+        
+        foreach (var param in parameters.Where(param => param.Length > 0)) {
+            param[0]++;
+            Assert.ThrowsException<CryptographicException>(() => XChaCha20Siv.Decrypt(p, parameters[0], parameters[1], parameters[2], parameters[3]));
+            param[0]--;
+        }
+    }
+    
+    [TestMethod]
+    [DynamicData(nameof(InvalidParameterSizes), DynamicDataSourceType.Method)]
+    public void Decrypt_Invalid(int ciphertextSize, int plaintextSize, int nonceSize, int keySize, int associatedDataSize)
+    {
+        var c = new byte[ciphertextSize];
+        var p = new byte[plaintextSize];
+        var n = new byte[nonceSize];
+        var k = new byte[keySize];
+        var ad = new byte[associatedDataSize];
+        
+        Assert.ThrowsException<ArgumentOutOfRangeException>(() => XChaCha20Siv.Decrypt(p, c, n, k, ad));
+    }
+}
