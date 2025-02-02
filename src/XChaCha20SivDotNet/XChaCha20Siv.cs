@@ -88,7 +88,7 @@ public static class XChaCha20Siv
             t[i] = (byte)(t[i] << 1);
         }
         for (int i = 0; i < t.Length - 2; i++) {
-            t[i] |= (byte)(d[i+1] >> 7);
+            t[i] |= (byte)(d[i + 1] >> 7);
         }
         byte mask = (byte)~((d[0] >> 7) - 1);
         t[30] ^= (byte)(0x04 & mask);
